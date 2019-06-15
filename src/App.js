@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { Route, Redirect, Switch } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import NavBar from "./components/navBar";
+import "./App.css";
+import WrappedNormalLoginForm from "./components/loginPage";
+import RegisterPage from "./components/registerPage";
+import LandingPage from "./components/landingPage";
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <NavBar user={this.state.user} />
+        <Switch>
+          <Route path="/home" component={LandingPage} />
+          <Route path="/login" component={WrappedNormalLoginForm} />
+          <Route path="/register" component={RegisterPage} />
+          <Redirect from="/" exact to="/home" />
+        </Switch>
+      </React.Fragment>
+    );
+  }
 }
 
 export default App;
