@@ -1,10 +1,10 @@
 import React from "react";
-import FormClass from "./common/form";
-import http from "../services/httpService";
-import { apiClientRoute } from "../config/default.json";
+import FormClass from "../common/form";
+import http from "../../services/httpService";
+import { apiClientRoute } from "../../config/default.json";
 import { Form, Button, Col, Row } from "antd";
 
-class DrawerForm extends FormClass {
+class AddClientForm extends FormClass {
   state = { visible: false };
 
   async doSubmit() {
@@ -90,6 +90,6 @@ class DrawerForm extends FormClass {
   }
 }
 
-const ClientDrawerForm = Form.create()(DrawerForm);
+const ClientAddForm = Form.create()(AddClientForm);
 
-export default ClientDrawerForm;
+export default ClientAddForm;

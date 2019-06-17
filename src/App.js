@@ -23,7 +23,7 @@ class App extends Component {
     this.setState({ user });
   }
 
-  // TODO: Problem: If user is logged in but navigates to /home they can't get back to app
+  // TODO: Problem: If user is logged in but navigates to `/home || login || register` they can't get back to app
 
   render() {
     return (

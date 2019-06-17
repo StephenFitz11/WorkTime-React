@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
 import { Drawer, Button, Icon } from "antd";
 import ClientsTable from "./clientsTable";
-import ClientDrawerForm from "./drawerForm";
+import ClientAddForm from "./forms/clientAddForm";
 
 class Clients extends Component {
   state = {
@@ -28,7 +27,7 @@ class Clients extends Component {
           onClose={this.toggleDrawer}
           visible={this.state.visible}
         >
-          <ClientDrawerForm />
+          <ClientAddForm />
           <div
             style={{
               position: "absolute",
