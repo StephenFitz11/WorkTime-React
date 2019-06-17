@@ -62,3 +62,16 @@ body {
 .register-form-forgot {
   width: 100%;
 }
+
+.app-sider {
+  margin-top: 0px;
+  height: 100vh;
+}
+
+.loggedin-nav {
+  float: right;
+}
+
+.clients button {
+  margin-bottom: 15px;
+}

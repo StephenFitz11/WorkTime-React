@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
 
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Avatar } from "antd";
 const { Header } = Layout;
 
 class NavBar extends Component {
@@ -16,6 +16,7 @@ class NavBar extends Component {
 
   render() {
     const { user } = this.props;
+
     return (
       <Layout className="layout">
         <Header>
@@ -38,14 +39,28 @@ class NavBar extends Component {
           {user && (
             <React.Fragment>
               <Menu
+                className="loggedin-nav"
                 theme="dark"
                 mode="horizontal"
-                defaultSelectedKeys={["2"]}
                 style={{ lineHeight: "64px" }}
               >
-                {this.renderNavItem("1", user)}
-                {this.renderNavItem("2", "Dashboard")}
-                {this.renderNavItem("3", "Reports")}
+                {this.renderNavItem("2", "Logout", "logout")}
+
+                <Menu.Item>
+                  <div>
+                    <Link to="/app">
+                      <Avatar
+                        style={{
+                          backgroundColor: "#40A9FF",
+                          verticalAlign: "middle"
+                        }}
+                        size="large"
+                      >
+                        {this.props.user.name[0]}
+                      </Avatar>
+                    </Link>
+                  </div>
+                </Menu.Item>
               </Menu>
             </React.Fragment>
           )}

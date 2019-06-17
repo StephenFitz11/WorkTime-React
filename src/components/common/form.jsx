@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 
-import { Form, Icon, Input, message, Button, Checkbox } from "antd";
+import {
+  Form,
+  Icon,
+  Input,
+  message,
+  Button,
+  Checkbox,
+  InputNumber,
+  Alert
+} from "antd";
 
 class FormClass extends Component {
   constructor(props) {
@@ -112,6 +121,33 @@ class FormClass extends Component {
     );
   }
 
+  renderFormatNumberInput(label, data, value) {
+    const { getFieldDecorator } = this.props.form;
+    return (
+      <Form.Item label={label}>
+        {getFieldDecorator(data)(
+          <InputNumber
+            formatter={value =>
+              `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+            parser={value => value.replace(/\$\s?|(,*)/g, "")}
+          />
+        )}
+      </Form.Item>
+    );
+  }
+
+  renderDescriptionBox(label, placeholder) {
+    const { getFieldDecorator } = this.props.form;
+    return (
+      <Form.Item label={label}>
+        {getFieldDecorator(label)(
+          <Input.TextArea rows={4} placeholder={placeholder} />
+        )}
+      </Form.Item>
+    );
+  }
+
   renderCheckbox(fieldName, text) {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -156,6 +192,16 @@ class FormClass extends Component {
       >
         Error
       </Button>
+    );
+  }
+
+  renderAlert(message, options = undefined) {
+    return (
+      <Form.Item {...options}>
+        <div>
+          <Alert message={message} type="error" showIcon />
+        </div>
+      </Form.Item>
     );
   }
 }
