@@ -1,4 +1,5 @@
 {
   "apiUrl": "http://localhost:5000/api",
-  "apiClientRoute": "http://localhost:5000/api/clients"
+  "apiClientRoute": "http://localhost:5000/api/clients",
+  "apiUserRoute": "http://localhost:5000/api/clients"
 }
