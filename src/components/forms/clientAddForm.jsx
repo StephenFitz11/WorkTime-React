@@ -2,12 +2,33 @@ import React from "react";
 import FormClass from "../common/form";
 import http from "../../services/httpService";
 import { apiClientRoute } from "../../config/default.json";
-import { Form, Button, Col, Row } from "antd";
+import { Form, Button, Col, Row, message } from "antd";
 
 class AddClientForm extends FormClass {
   state = { visible: false };
 
+  // TODO: Delete clientmaker before production. Used to create dummy clients for testing
+  async clientMaker(count) {
+    let rate = 1000;
+    for (let i = 0; i < count; i++) {
+      const newClient = {
+        clientCompanyName: `Client ${i}`,
+        email: `email${i}@test.com`,
+        street: `${i}0${i} North Cherry St. `,
+        city: `Oklahoma City`,
+        state: "OK",
+        zip: "73116",
+        billRate: rate
+      };
+      rate += 50;
+      await http.post(apiClientRoute, newClient);
+    }
+  }
+
   async doSubmit() {
+    // TODO: Delete below before production. Used to create dummy clients.
+    // this.clientMaker(15);
+
     const {
       clientCompanyName,
       email,
@@ -30,12 +51,9 @@ class AddClientForm extends FormClass {
       description
     };
 
-    console.log(apiClientRoute);
-
-    const reponse = await http.post(apiClientRoute, newClient);
+    await http.post(apiClientRoute, newClient);
     window.location = "/app/clients";
-
-    console.log(this.props.form.getFieldsValue());
+    message.success("Client Added!");
   }
 
   render() {
@@ -69,7 +87,12 @@ class AddClientForm extends FormClass {
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              {this.renderFormatNumberInput("Bill Rate (per day)", "billRate")}
+              {this.renderFormatNumberInput(
+                "Bill Rate (per day)",
+                "billRate",
+                null,
+                true
+              )}
             </Col>
           </Row>
           <Row gutter={16}>

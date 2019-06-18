@@ -121,11 +121,26 @@ class FormClass extends Component {
     );
   }
 
-  renderFormatNumberInput(label, data, value) {
+  renderFormatNumberInput(
+    label,
+    data,
+    value,
+    required = false,
+    placeholder = undefined
+  ) {
     const { getFieldDecorator } = this.props.form;
+    if (required) {
+      var object = new Object();
+      object.rules = [
+        {
+          required: true,
+          message: `Please enter your ${label || placeholder}!`
+        }
+      ];
+    }
     return (
       <Form.Item label={label}>
-        {getFieldDecorator(data)(
+        {getFieldDecorator(data, object)(
           <InputNumber
             formatter={value =>
               `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")

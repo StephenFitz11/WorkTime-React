@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Table, Divider } from "antd";
+import { Table, Popconfirm, message } from "antd";
 
 import http from "../services/httpService";
+
+import { apiClientRoute } from "../config/default.json";
 
 class ClientsTable extends Component {
   state = {};
@@ -21,8 +23,24 @@ class ClientsTable extends Component {
     console.log("params", pagination, filters, sorter);
   }
 
-  handleClick(id) {
-    console.log(id);
+  async handleDelete(client) {
+    const originalData = this.state.data;
+
+    const data = this.state.data.filter(m => m._id !== client._id);
+    this.setState({ data });
+    try {
+      await http.delete(`${apiClientRoute}/${client._id}`);
+
+      message.success("Client was deleted");
+    } catch (ex) {
+      message.error("An error occured. Client was not deleted.");
+      this.setState({ data: originalData });
+    }
+  }
+
+  cancel(e) {
+    console.log(e);
+    message.error("Click on No");
   }
 
   render() {
@@ -62,11 +80,15 @@ class ClientsTable extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a onClick={() => this.handleClick(record._id)} href="javascript:;">
-              Invite
-            </a>
-            <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
+            <Popconfirm
+              title="Are you sure delete this client?"
+              onConfirm={() => this.handleDelete(record)}
+              onCancel={this.cancel}
+              okText="Yes"
+              cancelText="No"
+            >
+              <a href="javascript:;">Delete</a>
+            </Popconfirm>
           </span>
         )
       }
