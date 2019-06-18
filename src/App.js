@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 
 import NavBar from "./components/navBar";
-import WrappedNormalLoginForm from "./components/loginPage";
+import LoginPage from "./components/loginPage";
 import RegisterPage from "./components/registerPage";
 import LandingPage from "./components/landingPage";
 import UserInterface from "./components/userInterface";
@@ -31,7 +31,7 @@ class App extends Component {
         <NavBar user={this.state.user} />
         <Switch>
           <Route path="/home" component={LandingPage} />
-          <Route path="/login" component={WrappedNormalLoginForm} />
+          <Route path="/login" component={LoginPage} />
           <Route path="/logout" component={LogOut} />
           <Route path="/register" component={RegisterPage} />
           <Route

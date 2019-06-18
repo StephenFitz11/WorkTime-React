@@ -4,6 +4,9 @@ import jwtDecode from "jwt-decode";
 
 const authEndpoint = apiUrl + "/auth";
 
+// TODO: Problem: When auth module used, error is thrown on line 4 of http service. "Default not defined."
+//
+
 export async function login(email, password) {
   const { data: jwt } = await http.post(authEndpoint, {
     email: email,
