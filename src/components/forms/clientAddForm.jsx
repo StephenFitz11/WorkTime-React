@@ -27,8 +27,7 @@ class AddClientForm extends FormClass {
 
   async doSubmit() {
     // TODO: Delete below before production. Used to create dummy clients.
-    // this.clientMaker(15);
-
+    // this.clientMaker(5);
     const {
       clientCompanyName,
       email,
@@ -39,7 +38,7 @@ class AddClientForm extends FormClass {
       billRate,
       description
     } = this.props.form.getFieldsValue();
-
+    
     const newClient = {
       clientCompanyName,
       email,
@@ -50,10 +49,9 @@ class AddClientForm extends FormClass {
       billRate,
       description
     };
-
+    // TODO: Make a way to diplay a notifcation before the reload.
     await http.post(apiClientRoute, newClient);
     window.location = "/app/clients";
-    message.success("Client Added!");
   }
 
   render() {

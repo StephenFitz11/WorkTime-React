@@ -22,13 +22,13 @@ const UiSider = () => {
       <Menu theme="dark" mode="inline">
         <Menu.Item key="1">
           <Link to="/app">
-            <Icon type="radar-chart" />
+            <Icon type="dashboard" />
             <span className="nav-text">Dashboard</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="2">
           <Link to="/app/clients">
-            <Icon type="compass" />
+            <Icon type="solution" />
             <span className="nav-text">Clients</span>
           </Link>
         </Menu.Item>
@@ -39,12 +39,18 @@ const UiSider = () => {
           </Link>
         </Menu.Item>
         <Menu.Item key="4">
+          <Link to="/app/time">
+            <Icon type="compass" />
+            <span className="nav-text">Manage Time</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="5">
           <Link to="/app/invoices">
             <Icon type="upload" />
             <span className="nav-text">Invoices</span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="5">
+        <Menu.Item key="6">
           <Link to="/app/account">
             <Icon type="setting" />
             <span className="nav-text">Account</span>

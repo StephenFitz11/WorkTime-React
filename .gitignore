@@ -7,11 +7,13 @@
 
 # testing
 /coverage
+/src/components/testcomponent.jsx
 
 # production
 /build
 
 # misc
+mvp.txt
 .DS_Store
 .env.local
 .env.development.local

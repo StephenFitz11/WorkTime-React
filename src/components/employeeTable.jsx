@@ -4,20 +4,22 @@ import { Table, Popconfirm, message } from "antd";
 
 import http from "../services/httpService";
 
-import { apiUserRoute } from "../config/default.json";
+import { apiEmployeeRoute } from "../config/default.json";
 
 class EmployeeTable extends Component {
   state = {};
 
-  //   async componentDidMount() {
-  //     const clientEndpoint = "http://localhost:5000/api/clients";
-  //     const { data } = await http.get(clientEndpoint);
-  //     data.map(item => {
-  //       item["key"] = item._id;
-  //     });
-  //     console.log(data);
-  //     this.setState({ data });
-  //   }
+  async componentDidMount() {
+    const { data } = await http.get(apiEmployeeRoute);
+
+    data.map(item => {
+      item["key"] = item._id;
+    });
+
+    this.setState({ data }, () => {
+      console.log(this.state.data);
+    });
+  }
 
   onChange(pagination, filters, sorter) {
     console.log("params", pagination, filters, sorter);
@@ -48,14 +50,14 @@ class EmployeeTable extends Component {
     const columns = [
       {
         title: "Name",
-        dataIndex: "clientCompanyName",
+        dataIndex: "firstName",
         // specify the condition of filtering result
         // here is that finding the name started with `value`
         onFilter: (value, record) => record.name.indexOf(value) === 0,
         render: (text, record) => (
-          <Link to={`/app/clients/${record._id}`}>
-            {record.clientCompanyName}
-          </Link>
+          <Link to={`/app/employees/${record._id}`}>{`${record.firstName} ${
+            record.lastName
+          }`}</Link>
         ),
         sorter: (a, b) =>
           a.clientCompanyName.length - b.clientCompanyName.length,
@@ -66,13 +68,6 @@ class EmployeeTable extends Component {
         dataIndex: "email",
         sorter: (a, b) => a.email - b.email,
 
-        sortDirections: ["descend", "ascend"]
-      },
-      {
-        title: "Rate",
-        dataIndex: "billRate",
-        defaultSortOrder: "ascend",
-        sorter: (a, b) => a.billRate - b.billRate,
         sortDirections: ["descend", "ascend"]
       },
       {

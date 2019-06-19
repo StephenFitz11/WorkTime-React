@@ -8,7 +8,8 @@ import {
   Button,
   Checkbox,
   InputNumber,
-  Alert
+  Alert,
+  Select
 } from "antd";
 
 class FormClass extends Component {
@@ -152,12 +153,32 @@ class FormClass extends Component {
     );
   }
 
-  renderDescriptionBox(label, placeholder) {
+  renderDescriptionBox(label, fieldName, placeholder) {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form.Item label={label}>
-        {getFieldDecorator(label)(
+        {getFieldDecorator(fieldName)(
           <Input.TextArea rows={4} placeholder={placeholder} />
+        )}
+      </Form.Item>
+    );
+  }
+
+  renderSelect(data, label, fieldName, mode, style) {
+    const { getFieldDecorator } = this.props.form;
+    return (
+      <Form.Item label={label}>
+        {getFieldDecorator(fieldName, {
+          rules: [{ required: true, message: `Please select ${label}!` }]
+        })(
+          <Select
+            mode={mode}
+            style={{ style }}
+            onChange={this.handleChange}
+            placeholder="Select clients employee may bill to"
+          >
+            {data}
+          </Select>
         )}
       </Form.Item>
     );
@@ -190,23 +211,6 @@ class FormClass extends Component {
           {label}
         </Button>
       </Form.Item>
-    );
-  }
-
-  renderError() {
-    const errorMessage = () => {
-      message.error("This is a message of error");
-    };
-
-    return (
-      <Button
-        style={{ display: "none" }}
-        onClick={errorMessage => {
-          this.renderError();
-        }}
-      >
-        Error
-      </Button>
     );
   }
 
