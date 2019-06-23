@@ -14,16 +14,55 @@ class UnWrappedEmployeeAddForm extends FormClass {
 
   // TODO: Delete employee maker before production. Used to create dummy employees for testing
   async employeeMaker(count) {
+    const fNames = [
+      "Emily",
+      "Hannah",
+      "Madison",
+      "Ashley",
+      "Sarah",
+      "Alexis",
+      "Samantha",
+      "Jessica",
+      "Elizabeth",
+      "Taylor"
+    ];
+    const lNames = [
+      "Parris",
+      "Paulette",
+      "Raena",
+      "Samiya",
+      "Stephenie",
+      "Stormi",
+      "Takara",
+      "Taniah",
+      "Taylin",
+      "Theodora",
+      "Ursula",
+      "Vada"
+    ];
+    const clients = [
+      "5d0fa91205eb7a488cb04523",
+      "5d0fa91205eb7a488cb04524",
+      "5d0fa91205eb7a488cb04525",
+      "5d0fa91205eb7a488cb04526",
+      "5d0fa91205eb7a488cb04527",
+      "5d0faa8514302f9c1cb32d2c"
+    ];
     let rate = 250;
     for (let i = 0; i < count; i++) {
+      const fName = fNames[Math.floor(Math.random() * fNames.length)];
+      const lName = lNames[Math.floor(Math.random() * lNames.length)];
+      const fClient = clients[Math.floor(Math.random() * clients.length)];
+      const lClient = clients[Math.floor(Math.random() * clients.length)];
+
       const newEmployee = {
         companyName: `Employee LLC ${i}`,
-        email: `email${i}@test.com`,
-        firstName: `Name ${i}`,
-        lastName: `Name ${i + 1}`,
+        email: `email${i + 7}@test.com`,
+        firstName: fName,
+        lastName: lName,
         phone: "867-5309",
         dayRate: rate,
-        clients: "5d08ea6bb8706a5ff8af5e9c"
+        clients: [fClient, lClient]
       };
       rate += 25;
       await http.post(apiEmployeeRoute, newEmployee);
@@ -85,7 +124,7 @@ class UnWrappedEmployeeAddForm extends FormClass {
   }
 
   render() {
-    const clients = this.state.children;
+    const options = this.state.children;
 
     return (
       <React.Fragment>
@@ -124,7 +163,7 @@ class UnWrappedEmployeeAddForm extends FormClass {
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              {this.renderSelect(clients, "Clients", "clients", "multiple")}
+              {this.renderSelect(options, "Clients", true, "", "multiple")}
             </Col>
             <Col span={12}>
               {this.renderFormatNumberInput("Day Rate", "dayRate", null, true)}

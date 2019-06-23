@@ -2,5 +2,6 @@
   "apiUrl": "http://localhost:5000/api",
   "apiClientRoute": "http://localhost:5000/api/clients",
   "apiUserRoute": "http://localhost:5000/api/clients",
-  "apiEmployeeRoute": "http://localhost:5000/api/employees"
+  "apiEmployeeRoute": "http://localhost:5000/api/employees",
+  "apiTimeRoute": "http://localhost:5000/api/time"
 }

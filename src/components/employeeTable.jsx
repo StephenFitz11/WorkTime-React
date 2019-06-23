@@ -16,33 +16,28 @@ class EmployeeTable extends Component {
       item["key"] = item._id;
     });
 
-    this.setState({ data }, () => {
-      console.log(this.state.data);
-    });
+    this.setState({ data });
   }
 
   onChange(pagination, filters, sorter) {
     console.log("params", pagination, filters, sorter);
   }
 
-  //   async handleDelete(client) {
-  //     const originalData = this.state.data;
+  // TODO: Implement DELETE Client
 
-  //     const data = this.state.data.filter(m => m._id !== client._id);
-  //     this.setState({ data });
-  //     try {
-  //       await http.delete(`${apiClientRoute}/${client._id}`);
+  async handleDelete(client) {
+    const originalData = this.state.data;
 
-  //       message.success("Client was deleted");
-  //     } catch (ex) {
-  //       message.error("An error occured. Client was not deleted.");
-  //       this.setState({ data: originalData });
-  //     }
-  //   }
+    const data = this.state.data.filter(m => m._id !== client._id);
+    this.setState({ data });
+    try {
+      await http.delete(`${apiEmployeeRoute}/${client._id}`);
 
-  cancel(e) {
-    console.log(e);
-    message.error("Click on No");
+      message.success("Client was deleted");
+    } catch (ex) {
+      message.error("An error occured. Employee was not deleted.");
+      this.setState({ data: originalData });
+    }
   }
 
   render() {

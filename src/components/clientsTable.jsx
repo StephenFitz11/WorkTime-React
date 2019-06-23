@@ -10,12 +10,11 @@ class ClientsTable extends Component {
   state = {};
 
   async componentDidMount() {
-    const clientEndpoint = "http://localhost:5000/api/clients";
-    const { data } = await http.get(clientEndpoint);
+    const { data } = await http.get(apiClientRoute);
     data.map(item => {
       item["key"] = item._id;
     });
-    console.log(data);
+
     this.setState({ data });
   }
 
@@ -36,11 +35,6 @@ class ClientsTable extends Component {
       message.error("An error occured. Client was not deleted.");
       this.setState({ data: originalData });
     }
-  }
-
-  cancel(e) {
-    console.log(e);
-    message.error("Click on No");
   }
 
   render() {

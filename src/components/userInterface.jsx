@@ -14,11 +14,13 @@ import Account from "./account";
 import Clients from "./clients";
 import ClientDetails from "./clientDetails";
 import EmployeeDetails from "./employeeDetails";
+import Time from "./time";
 
 const { Header, Content, Footer } = Layout;
 
 class UserInterface extends Component {
   state = {};
+
   render() {
     const { user } = this.props;
     return (
@@ -27,7 +29,7 @@ class UserInterface extends Component {
 
         {user && (
           <React.Fragment>
-            <UiSider />
+            <UiSider user={user} />
             <Layout>
               <Header style={{ background: "#fff", padding: 0 }} />
               <Content style={{ margin: "24px 16px 0" }}>
@@ -43,6 +45,10 @@ class UserInterface extends Component {
                   <Route path="/app/employees" exact component={Employees} />
                   <Route path="/app/invoices" component={Invoices} />
                   <Route path="/app/account" component={Account} />
+                  <Route
+                    path="/app/time"
+                    render={props => <Time {...props} user={user} />}
+                  />
                   <Route path="/app" exact component={DashBoard} />
                 </div>
               </Content>

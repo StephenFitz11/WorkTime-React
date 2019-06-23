@@ -2,17 +2,22 @@ import React from "react";
 import FormClass from "../common/form";
 import http from "../../services/httpService";
 import { apiClientRoute } from "../../config/default.json";
-import { Form, Button, Col, Row, message } from "antd";
+import { Form, Button, Col, Row, Input, Icon } from "antd";
+import { element } from "prop-types";
+
+let id = 0;
 
 class AddClientForm extends FormClass {
   state = { visible: false };
 
   // TODO: Delete clientmaker before production. Used to create dummy clients for testing
-  async clientMaker(count) {
+  async clientMaker() {
+    const companies = ["Exxon", "Chevron", "Sinopec", "EOG", "Haliburton"];
     let rate = 1000;
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < companies.length; i++) {
+      const elem = companies[i];
       const newClient = {
-        clientCompanyName: `Client ${i}`,
+        clientCompanyName: elem,
         email: `email${i}@test.com`,
         street: `${i}0${i} North Cherry St. `,
         city: `Oklahoma City`,
@@ -27,7 +32,7 @@ class AddClientForm extends FormClass {
 
   async doSubmit() {
     // TODO: Delete below before production. Used to create dummy clients.
-    // this.clientMaker(5);
+    // this.clientMaker();
     const {
       clientCompanyName,
       email,
@@ -36,9 +41,10 @@ class AddClientForm extends FormClass {
       state,
       zip,
       billRate,
+
       description
     } = this.props.form.getFieldsValue();
-    
+
     const newClient = {
       clientCompanyName,
       email,
@@ -47,6 +53,7 @@ class AddClientForm extends FormClass {
       state,
       zip,
       billRate,
+
       description
     };
     // TODO: Make a way to diplay a notifcation before the reload.
@@ -54,10 +61,39 @@ class AddClientForm extends FormClass {
     window.location = "/app/clients";
   }
 
+  remove = k => {
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue("keys");
+    // We need at least one passenger
+    if (keys.length === 1) {
+      return;
+    }
+
+    // can use data-binding to set
+    form.setFieldsValue({
+      keys: keys.filter(key => key !== k)
+    });
+  };
+
+  add = () => {
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue("keys");
+    const nextKeys = keys.concat(id++);
+    // can use data-binding to set
+    // important! notify form to detect changes
+    form.setFieldsValue({
+      keys: nextKeys
+    });
+  };
+
   render() {
+    const { getFieldDecorator, getFieldValue } = this.props.form;
+
     return (
       <React.Fragment>
-        <Form layout="vertical" hideRequiredMark>
+        <Form layout="vertical">
           <Row gutter={16}>
             <Col span={12}>
               {this.renderInput(
@@ -97,6 +133,7 @@ class AddClientForm extends FormClass {
             <Col span={24}>
               {this.renderDescriptionBox(
                 "Description",
+
                 "Enter additional information"
               )}
             </Col>

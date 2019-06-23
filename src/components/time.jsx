@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Drawer, Button, Icon } from "antd";
-import EmployeeTable from "./employeeTable";
-import EmployeeAddForm from "./forms/employeeAddForm";
+import TimeTable from "./timeTable";
+import TimeForm from "./forms/timeForm";
 
-class Employees extends Component {
+import FormClass from "./common/form";
+
+class Time extends Component {
   state = { visible: false };
 
   toggleDrawer = () => {
@@ -13,23 +15,24 @@ class Employees extends Component {
   };
 
   render() {
+    const { user } = this.props;
     return (
       <div className="table">
         <Button type="primary" onClick={this.toggleDrawer}>
-          <Icon type="plus" /> New Employee
+          <Icon type="plus" /> Enter Time
         </Button>
+        <TimeTable user={user} />
         <Drawer
-          title="Add a new Employee."
+          title="Enter time."
           width={720}
           onClose={this.toggleDrawer}
           visible={this.state.visible}
         >
-          <EmployeeAddForm />
+          <TimeForm user={user} />
         </Drawer>
-        <EmployeeTable />
       </div>
     );
   }
 }
 
-export default Employees;
+export default Time;

@@ -9,8 +9,13 @@ import {
   Checkbox,
   InputNumber,
   Alert,
-  Select
+  Select,
+  TimePicker,
+  DatePicker
 } from "antd";
+import moment from "moment";
+
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
 class FormClass extends Component {
   constructor(props) {
@@ -131,7 +136,7 @@ class FormClass extends Component {
   ) {
     const { getFieldDecorator } = this.props.form;
     if (required) {
-      var object = new Object();
+      var object = {};
       object.rules = [
         {
           required: true,
@@ -153,8 +158,9 @@ class FormClass extends Component {
     );
   }
 
-  renderDescriptionBox(label, fieldName, placeholder) {
+  renderDescriptionBox(label, placeholder) {
     const { getFieldDecorator } = this.props.form;
+    const fieldName = label.toLowerCase();
     return (
       <Form.Item label={label}>
         {getFieldDecorator(fieldName)(
@@ -164,21 +170,124 @@ class FormClass extends Component {
     );
   }
 
-  renderSelect(data, label, fieldName, mode, style) {
+  renderSelect(
+    data,
+    label,
+    required = false,
+    placeholder = undefined,
+    mode = undefined,
+    style = undefined
+  ) {
     const { getFieldDecorator } = this.props.form;
+    const fieldName = label.toLowerCase();
+    if (required) {
+      var object = {};
+      object.rules = [
+        {
+          required: true,
+          message: `Please enter your ${label || placeholder}!`
+        }
+      ];
+    }
     return (
       <Form.Item label={label}>
-        {getFieldDecorator(fieldName, {
-          rules: [{ required: true, message: `Please select ${label}!` }]
-        })(
+        {getFieldDecorator(fieldName, object)(
           <Select
             mode={mode}
             style={{ style }}
             onChange={this.handleChange}
-            placeholder="Select clients employee may bill to"
+            placeholder={placeholder}
           >
             {data}
           </Select>
+        )}
+      </Form.Item>
+    );
+  }
+
+  renderSearchableSelect(
+    options,
+    label,
+    required = false,
+    placeholder = false
+  ) {
+    const { getFieldDecorator } = this.props.form;
+    const fieldName = label.toLowerCase();
+    if (required) {
+      var object = {};
+      object.rules = [
+        {
+          required: true,
+          message: `Please enter your ${label || placeholder}!`
+        }
+      ];
+    }
+    return (
+      <Form.Item label={label}>
+        {getFieldDecorator(fieldName, object)(
+          <Select
+            showSearch
+            placeholder="Select a client to bill"
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.props.children
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {options}
+          </Select>
+        )}
+      </Form.Item>
+    );
+  }
+
+  // Renders a small drowdown to choose the date
+  renderDatePicker(label, required = false, placeholder = undefined) {
+    const { getFieldDecorator } = this.props.form;
+    const fieldName = label.toLowerCase();
+    if (required) {
+      var object = {};
+      object.rules = [
+        {
+          required: true,
+          message: `Please enter your ${label || placeholder}!`
+        }
+      ];
+    }
+    return (
+      <Form.Item label={label}>
+        {getFieldDecorator(fieldName, object)(<DatePicker />)}
+      </Form.Item>
+    );
+  }
+
+  // Renders a small dropdown to choose time in HH:mm:ss format
+  renderTimePicker(
+    label,
+    fieldName,
+    format,
+    required = false,
+    placeholder = undefined
+  ) {
+    const { getFieldDecorator } = this.props.form;
+    if (required) {
+      var object = {};
+      object.rules = [
+        {
+          required: true,
+          message: `Please enter your ${label || placeholder}!`
+        }
+      ];
+    }
+    return (
+      <Form.Item label={label}>
+        {getFieldDecorator(fieldName, object)(
+          <TimePicker
+            minuteStep={15}
+            defaultOpenValue={moment("00:00", format)}
+            format={format}
+          />
         )}
       </Form.Item>
     );
