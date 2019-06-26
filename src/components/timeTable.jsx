@@ -124,6 +124,8 @@ class TimeTable extends Component {
     });
   }
 
+  filterDataByDate() {}
+
   render() {
     const data = this.state.data;
 

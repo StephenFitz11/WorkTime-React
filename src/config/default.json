@@ -3,5 +3,6 @@
   "apiClientRoute": "http://localhost:5000/api/clients",
   "apiUserRoute": "http://localhost:5000/api/clients",
   "apiEmployeeRoute": "http://localhost:5000/api/employees",
-  "apiTimeRoute": "http://localhost:5000/api/time"
+  "apiTimeRoute": "http://localhost:5000/api/time",
+  "mongoURI": "mongodb+srv://frosty:OjqzfKkaZcQakyEl@cluster0-le8td.mongodb.net/test?retryWrites=true"
 }

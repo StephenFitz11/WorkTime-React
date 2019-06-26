@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Drawer, Button, Icon } from "antd";
+import { Drawer, Button, Icon, Row, Col } from "antd";
 import TimeTable from "./timeTable";
 import TimeForm from "./forms/timeForm";
 
 import FormClass from "./common/form";
+import TimeFilterForm from "./forms/timeFilterForm";
 
 class Time extends Component {
   state = { visible: false };
@@ -18,9 +19,16 @@ class Time extends Component {
     const { user } = this.props;
     return (
       <div className="table">
-        <Button type="primary" onClick={this.toggleDrawer}>
-          <Icon type="plus" /> Enter Time
-        </Button>
+        <Row gutter={18}>
+          <Col span={16}>
+            <Button type="primary" onClick={this.toggleDrawer}>
+              <Icon type="plus" /> Enter Time
+            </Button>
+          </Col>
+          <Col>
+            <TimeFilterForm />
+          </Col>
+        </Row>
         <TimeTable user={user} />
         <Drawer
           title="Enter time."

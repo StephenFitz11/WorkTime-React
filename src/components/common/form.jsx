@@ -262,6 +262,29 @@ class FormClass extends Component {
     );
   }
 
+  // // Date Range picker
+  // renderDateRangePicker(label) {
+  //   <Form.Item label={label}>
+  //     <RangePicker
+  //       ranges={{
+  //         Today: [moment(), moment()],
+  //         "This Month": [moment().startOf("month"), moment().endOf("month")]
+  //       }}
+  //       onChange={onChange}
+  //     />
+  //     <br />
+  //     <RangePicker
+  //       ranges={{
+  //         Today: [moment(), moment()],
+  //         "This Month": [moment().startOf("month"), moment().endOf("month")]
+  //       }}
+  //       showTime
+  //       format="YYYY/MM/DD HH:mm:ss"
+  //       onChange={onChange}
+  //     />
+  //   </Form.Item>;
+  // }
+
   // Renders a small dropdown to choose time in HH:mm:ss format
   renderTimePicker(
     label,

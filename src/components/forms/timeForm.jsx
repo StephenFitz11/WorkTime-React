@@ -61,8 +61,7 @@ class UnWrappedTimeForm extends FormClass {
 
   render() {
     const options = this.state.children;
-    const hours = _.range(9);
-    const mins = ["00", "15", "30", "45"];
+
     return (
       <React.Fragment>
         <Form>
@@ -73,7 +72,7 @@ class UnWrappedTimeForm extends FormClass {
             <Col span={6}>{this.renderDatePicker("Date", true)}</Col>
             <Col span={6}>
               {this.renderSelect(
-                hours.map(m => <Option key={m}>{m}</Option>),
+                _.range(9).map(m => <Option key={m}>{m}</Option>),
                 "Hours",
                 true,
                 "Hours worked"
@@ -81,7 +80,7 @@ class UnWrappedTimeForm extends FormClass {
             </Col>
             <Col span={6}>
               {this.renderSelect(
-                mins.map(m => <Option key={m}>{m}</Option>),
+                _.range(4).map(m => <Option key={m}>{m * 15}</Option>),
                 "Mins",
                 true,
                 "Minutes"
@@ -89,6 +88,8 @@ class UnWrappedTimeForm extends FormClass {
             </Col>
           </Row>
           <Row gutter={16} />
+          <Row gutter={16}>{/* {Enter HEre
+        } */}</Row>
 
           <Row gutter={16}>
             <Col span={24}>
