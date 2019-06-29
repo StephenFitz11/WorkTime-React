@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Table, Popconfirm, message } from "antd";
+import { Table, Popconfirm, message, Divider } from "antd";
 
 import http from "../services/httpService";
 
@@ -74,8 +74,10 @@ class ClientsTable extends Component {
         key: "action",
         render: (text, record) => (
           <span>
+            <Link to={`/app/clients/${record._id}`}>Edit</Link>
+            <Divider type="vertical" />
             <Popconfirm
-              title="Are you sure delete this client?"
+              title="Are you sure you want to delete this client?"
               onConfirm={() => this.handleDelete(record)}
               onCancel={this.cancel}
               okText="Yes"

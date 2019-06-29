@@ -45,11 +45,11 @@ class EmployeeDetails extends Component {
               title="Employee Information"
               bordered={false}
               // TODO: Implement Edit
-              // extra={
-              //   <Button type="primary" onClick={this.toggleDrawer}>
-              //     <Icon type="edit" /> Edit Employee
-              //   </Button>
-              // }
+              extra={
+                <Button type="primary" onClick={this.toggleDrawer}>
+                  <Icon type="edit" /> Edit Employee
+                </Button>
+              }
             >
               <Row>
                 <DescriptionItem
@@ -90,12 +90,12 @@ class EmployeeDetails extends Component {
           <Col />
         </Row>
         <Drawer
-          title="Add a new Employee."
+          title="Edit Employee Details."
           width={720}
           onClose={this.toggleDrawer}
           visible={this.state.visible}
         >
-          <EmployeeEditForm />
+          <EmployeeEditForm initials={this.state.data} />
           <div
             style={{
               position: "absolute",

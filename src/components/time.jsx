@@ -25,9 +25,6 @@ class Time extends Component {
               <Icon type="plus" /> Enter Time
             </Button>
           </Col>
-          <Col>
-            <TimeFilterForm />
-          </Col>
         </Row>
         <TimeTable user={user} />
         <Drawer

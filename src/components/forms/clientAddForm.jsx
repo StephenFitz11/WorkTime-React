@@ -33,6 +33,8 @@ class AddClientForm extends FormClass {
   async doSubmit() {
     // TODO: Delete below before production. Used to create dummy clients.
     // this.clientMaker();
+    console.log(this.props.form.getFieldsValue());
+
     const {
       clientCompanyName,
       email,
@@ -41,7 +43,6 @@ class AddClientForm extends FormClass {
       state,
       zip,
       billRate,
-
       description
     } = this.props.form.getFieldsValue();
 
@@ -53,7 +54,6 @@ class AddClientForm extends FormClass {
       state,
       zip,
       billRate,
-
       description
     };
     // TODO: Make a way to diplay a notifcation before the reload.
@@ -91,51 +91,75 @@ class AddClientForm extends FormClass {
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
+    // TODO: Change to inputObject
     return (
       <React.Fragment>
         <Form layout="vertical">
           <Row gutter={16}>
             <Col span={12}>
-              {this.renderInput(
-                "clientCompanyName",
-                "Enter Client's Company Name",
-                "Company Name",
-                true
-              )}
+              {this.renderOpInput({
+                fieldName: "clientCompanyName",
+                required: true,
+                placeholder: "Client Company Name",
+                label: "Company Name"
+              })}
             </Col>
             <Col span={12}>
-              {this.renderInput(
-                "email",
-                "Client's Email address (Contact Person)",
-                "Email"
-              )}
+              {this.renderOpInput({
+                fieldName: "email",
+                label: "Email",
+                placeholder: "Client's Email address (Contact Person)"
+              })}
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              {this.renderInput("street", "Client Address", "Address")}
+              {this.renderOpInput({
+                fieldName: "street",
+                placeholder: "Client Street Address",
+                label: "Street"
+              })}
             </Col>
-            <Col span={4}>{this.renderInput("city", "City", "City")}</Col>
-            <Col span={4}>{this.renderInput("state", "State", "State")}</Col>
-            <Col span={4}>{this.renderInput("zip", "Zip", "Zip")}</Col>
+            <Col span={4}>
+              {this.renderOpInput({
+                fieldName: "city",
+                label: "City",
+                placeholder: "City"
+              })}
+            </Col>
+            <Col span={4}>
+              {this.renderOpInput({
+                fieldName: "state",
+                label: "State",
+                placeholder: "State"
+              })}
+            </Col>
+            <Col span={4}>
+              {this.renderOpInput({
+                fieldName: "zip",
+                label: "Zip",
+                placeholder: "Zip"
+              })}
+            </Col>
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              {this.renderFormatNumberInput(
-                "Bill Rate (per day)",
-                "billRate",
-                null,
-                true
-              )}
+              {this.renderFormatNumberInput({
+                fieldName: "billRate",
+                label: "Bill Rate (per day)",
+                required: true
+              })}
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={24}>
-              {this.renderDescriptionBox(
-                "Description",
-
-                "Enter additional information"
-              )}
+              {this.renderOpInput({
+                fieldName: "description",
+                label: "Description",
+                formItemType: "description",
+                placeholder: "Please enter a description",
+                rows: 4
+              })}
             </Col>
           </Row>
 

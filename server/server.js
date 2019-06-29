@@ -5,6 +5,7 @@ const app = express();
 
 app.use(cors());
 
+// Connect to DB
 connectDB();
 
 // Routes

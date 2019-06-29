@@ -93,11 +93,13 @@ class UnWrappedTimeForm extends FormClass {
 
           <Row gutter={16}>
             <Col span={24}>
-              {this.renderDescriptionBox(
-                "Description",
-
-                "Additional information (optional, 400 characters or less)"
-              )}
+              {this.renderOpInput({
+                fieldName: "description",
+                label: "Description",
+                formItemType: "description",
+                placeholder: "Please enter a description",
+                rows: 4
+              })}
             </Col>
           </Row>
 

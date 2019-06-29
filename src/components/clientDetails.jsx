@@ -30,6 +30,11 @@ class ClientDetails extends Component {
         <Row gutter={16}>
           <Col>
             <Card
+              extra={
+                <Button type="primary" onClick={this.toggleDrawer}>
+                  <Icon type="edit" /> Edit Client
+                </Button>
+              }
               title="Client Information"
               bordered={false}
               // TODO: Implement Edit Client drawer to respond to this button.

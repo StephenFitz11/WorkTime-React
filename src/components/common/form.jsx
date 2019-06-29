@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import _ from "lodash";
 
 import {
   Form,
@@ -14,6 +15,7 @@ import {
   DatePicker
 } from "antd";
 import moment from "moment";
+import { objectTypeAnnotation } from "@babel/types";
 
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
@@ -94,7 +96,8 @@ class FormClass extends Component {
     label,
     required = false,
     type = "text",
-    prefix = undefined
+    prefix = undefined,
+    initial = undefined
   ) {
     const { getFieldDecorator } = this.props.form;
 
@@ -127,47 +130,102 @@ class FormClass extends Component {
     );
   }
 
-  renderFormatNumberInput(
-    label,
-    data,
-    value,
-    required = false,
-    placeholder = undefined
-  ) {
+  renderOpInput(options) {
     const { getFieldDecorator } = this.props.form;
-    if (required) {
-      var object = {};
-      object.rules = [
-        {
-          required: true,
-          message: `Please enter your ${label || placeholder}!`
-        }
-      ];
+
+    let decOps = {};
+    if (options.required === true) {
+      decOps = {
+        rules: [
+          {
+            required: true,
+            message: `${options.label || options.placeholder} is required`
+          }
+        ]
+      };
     }
-    return (
-      <Form.Item label={label}>
-        {getFieldDecorator(data, object)(
-          <InputNumber
-            formatter={value =>
-              `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            }
-            parser={value => value.replace(/\$\s?|(,*)/g, "")}
-          />
-        )}
-      </Form.Item>
+
+    if (options.initialValue) {
+      decOps.initialValue = options.initialValue;
+    }
+
+    var input = (
+      <Input
+        prefix={
+          options.prefix ? (
+            <Icon type={options.prefix} style={{ color: "rgba(0,0,0,.25)" }} />
+          ) : (
+            undefined
+          )
+        }
+        type={options.type || "text"}
+        placeholder={options.placeholder || undefined}
+        allowClear={options.allowClear}
+      />
     );
+
+    if (options.formItemType === "description") {
+      input = (
+        <Input.TextArea
+          rows={options.rows || undefined}
+          prefix={
+            options.prefix ? (
+              <Icon
+                type={options.prefix}
+                style={{ color: "rgba(0,0,0,.25)" }}
+              />
+            ) : (
+              undefined
+            )
+          }
+          placeholder={options.placeholder || undefined}
+        />
+      );
+    }
+
+    let formInput = (
+      <React.Fragment>
+        <Form.Item label={<span>{options.label}</span> || undefined}>
+          {getFieldDecorator(options.fieldName, decOps)(input)}
+        </Form.Item>
+      </React.Fragment>
+    );
+
+    return formInput;
   }
 
-  renderDescriptionBox(label, placeholder) {
+  renderFormatNumberInput(options) {
     const { getFieldDecorator } = this.props.form;
-    const fieldName = label.toLowerCase();
-    return (
-      <Form.Item label={label}>
-        {getFieldDecorator(fieldName)(
-          <Input.TextArea rows={4} placeholder={placeholder} />
-        )}
-      </Form.Item>
+    if (options.required === true) {
+      var decOps = {
+        rules: [
+          {
+            required: true,
+            message: `${options.label || options.placeholder} is required`
+          }
+        ]
+      };
+    }
+
+    if (options.initialValue) {
+      decOps.initialValue = options.initialValue;
+    }
+    let formInput = (
+      <React.Fragment>
+        <Form.Item label={options.label}>
+          {getFieldDecorator(options.fieldName, decOps)(
+            <InputNumber
+              formatter={value =>
+                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={value => value.replace(/\$\s?|(,*)/g, "")}
+            />
+          )}
+        </Form.Item>
+      </React.Fragment>
     );
+
+    return formInput;
   }
 
   renderSelect(
@@ -209,7 +267,8 @@ class FormClass extends Component {
     options,
     label,
     required = false,
-    placeholder = false
+    placeholder = false,
+    clients
   ) {
     const { getFieldDecorator } = this.props.form;
     const fieldName = label.toLowerCase();
@@ -221,14 +280,17 @@ class FormClass extends Component {
           message: `Please enter your ${label || placeholder}!`
         }
       ];
+      object.initialValue = clients;
     }
+
     return (
       <Form.Item label={label}>
         {getFieldDecorator(fieldName, object)(
           <Select
+            mode="multiple"
             showSearch
-            placeholder="Select a client to bill"
             optionFilterProp="children"
+            onChange={this.handleChange}
             filterOption={(input, option) =>
               option.props.children
                 .toLowerCase()

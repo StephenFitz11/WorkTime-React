@@ -131,51 +131,73 @@ class UnWrappedEmployeeAddForm extends FormClass {
         <Form layout="vertical">
           <Row gutter={16}>
             <Col span={6}>
-              {this.renderInput(
-                "firstName",
-                "Employee's Name",
-                "First Name",
-                true
-              )}
+              {this.renderOpInput({
+                fieldName: "firstName",
+                required: true,
+                placeholder: "Employee's Name",
+                label: "First Name"
+              })}
             </Col>
             <Col span={6}>
-              {this.renderInput("lastName", "Last Name", "Last Name", true)}
+              {this.renderOpInput({
+                fieldName: "lastName",
+                required: true,
+                placeholder: "Last Name",
+                label: "Last Name"
+              })}
             </Col>
             <Col span={12}>
-              {this.renderInput(
-                "companyName",
-                "Employee's LLC (Optional)",
-                "LLC Name"
-              )}
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              {this.renderInput("email", "Employee Email", "Email", true)}
-            </Col>
-            <Col span={12}>
-              {this.renderInput(
-                "phone",
-                "Employees Phone Number (Optional)",
-                "Phone"
-              )}
+              {this.renderOpInput({
+                fieldName: "companyName",
+                placeholder: "Employee's LLC (Optional)",
+                label: "LLC Name"
+              })}
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              {this.renderSelect(options, "Clients", true, "", "multiple")}
+              {this.renderOpInput({
+                fieldName: "email",
+                placeholder: "Employee Email",
+                label: "Email",
+                required: true
+              })}
             </Col>
             <Col span={12}>
-              {this.renderFormatNumberInput("Day Rate", "dayRate", null, true)}
+              {this.renderOpInput({
+                fieldName: "phone",
+                placeholder: "Employee's phone (Optional)",
+                label: "Phone"
+              })}
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              {this.renderSelect(
+                options,
+                "Clients",
+                true,
+                "+ Clients Employee can bill to",
+                "multiple"
+              )}
+            </Col>
+            <Col span={12}>
+              {this.renderFormatNumberInput({
+                fieldName: "dayRate",
+                label: "Bill Rate (per day)",
+                required: true
+              })}
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={24}>
-              {this.renderDescriptionBox(
-                "Description",
-                "description",
-                "Additional information (optional)"
-              )}
+              {this.renderOpInput({
+                fieldName: "description",
+                label: "Description",
+                formItemType: "description",
+                placeholder: "Please enter a description",
+                rows: 4
+              })}
             </Col>
           </Row>
 
