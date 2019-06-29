@@ -18,10 +18,6 @@ class ClientsTable extends Component {
     this.setState({ data });
   }
 
-  onChange(pagination, filters, sorter) {
-    console.log("params", pagination, filters, sorter);
-  }
-
   async handleDelete(client) {
     const originalData = this.state.data;
 
@@ -74,8 +70,6 @@ class ClientsTable extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <Link to={`/app/clients/${record._id}`}>Edit</Link>
-            <Divider type="vertical" />
             <Popconfirm
               title="Are you sure you want to delete this client?"
               onConfirm={() => this.handleDelete(record)}

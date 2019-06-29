@@ -1,70 +1,49 @@
-import React from "react";
-import FormClass from "../common/form";
+import React, { Component } from "react";
 import http from "../../services/httpService";
+import { Form, Button, Col, Row, message } from "antd";
+import FormClass from "./../common/form";
 import { apiClientRoute } from "../../config/default.json";
-import { Form, Button, Col, Row, Input, Icon } from "antd";
-import { element } from "prop-types";
 
-let id = 0;
-
-class AddClientForm extends FormClass {
-  state = { visible: false };
-
-  // TODO: Delete clientmaker before production. Used to create dummy clients for testing
-  async clientMaker() {
-    const companies = ["Exxon", "Chevron", "Sinopec", "EOG", "Haliburton"];
-    let rate = 1000;
-    for (let i = 0; i < companies.length; i++) {
-      const elem = companies[i];
-      const newClient = {
-        clientCompanyName: elem,
-        email: `email${i}@test.com`,
-        street: `${i}0${i} North Cherry St. `,
-        city: `Oklahoma City`,
-        state: "OK",
-        zip: "73116",
-        billRate: rate
-      };
-      rate += 50;
-      await http.post(apiClientRoute, newClient);
-    }
-  }
+class UnwrappedClientEditForm extends FormClass {
+  state = {};
 
   async doSubmit() {
-    // TODO: Delete below before production. Used to create dummy clients.
-    // this.clientMaker();
-    console.log(this.props.form.getFieldsValue());
-
     const {
       clientCompanyName,
       email,
-      street,
-      city,
-      state,
-      zip,
       billRate,
+      street,
+      state,
+      city,
+      zip,
       description
     } = this.props.form.getFieldsValue();
 
-    const newClient = {
+    const updateClient = {
+      clientId: this.props.initials._id,
       clientCompanyName,
       email,
-      street,
-      city,
-      state,
-      zip,
       billRate,
+      street,
+      state,
+      city,
+      zip,
       description
     };
-    // TODO: Make a way to diplay a notifcation before the reload.
-    await http.post(apiClientRoute, newClient);
-    window.location = "/app/clients";
+
+    try {
+      await http.put(apiClientRoute, updateClient);
+      window.location = `/app/clients/${this.props.initials._id}`;
+      message.success("Employee Updated! ");
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        message.error(ex.response.data);
+      }
+    }
   }
 
   render() {
-    const { getFieldDecorator, getFieldValue } = this.props.form;
-
-    // TODO: Change to inputObject
+    const { initials } = this.props;
     return (
       <React.Fragment>
         <Form layout="vertical">
@@ -74,14 +53,16 @@ class AddClientForm extends FormClass {
                 fieldName: "clientCompanyName",
                 required: true,
                 placeholder: "Client Company Name",
-                label: "Company Name"
+                label: "Company Name",
+                initialValue: initials.clientCompanyName
               })}
             </Col>
             <Col span={12}>
               {this.renderOpInput({
                 fieldName: "email",
                 label: "Email",
-                placeholder: "Client's Email address (Contact Person)"
+                placeholder: "Client's Email address (Contact Person)",
+                initialValue: initials.email
               })}
             </Col>
           </Row>
@@ -90,28 +71,32 @@ class AddClientForm extends FormClass {
               {this.renderOpInput({
                 fieldName: "street",
                 placeholder: "Client Street Address",
-                label: "Street"
+                label: "Street",
+                initialValue: initials.street
               })}
             </Col>
             <Col span={4}>
               {this.renderOpInput({
                 fieldName: "city",
                 label: "City",
-                placeholder: "City"
+                placeholder: "City",
+                initialValue: initials.city
               })}
             </Col>
             <Col span={4}>
               {this.renderOpInput({
                 fieldName: "state",
                 label: "State",
-                placeholder: "State"
+                placeholder: "State",
+                initialValue: initials.state
               })}
             </Col>
             <Col span={4}>
               {this.renderOpInput({
                 fieldName: "zip",
                 label: "Zip",
-                placeholder: "Zip"
+                placeholder: "Zip",
+                initialValue: initials.zip
               })}
             </Col>
           </Row>
@@ -120,7 +105,8 @@ class AddClientForm extends FormClass {
               {this.renderFormatNumberInput({
                 fieldName: "billRate",
                 label: "Bill Rate (per day)",
-                required: true
+                required: true,
+                initialValue: initials.billRate
               })}
             </Col>
           </Row>
@@ -131,7 +117,8 @@ class AddClientForm extends FormClass {
                 label: "Description",
                 formItemType: "description",
                 placeholder: "Please enter a description",
-                rows: 4
+                rows: 4,
+                initialValue: initials.description
               })}
             </Col>
           </Row>
@@ -145,6 +132,6 @@ class AddClientForm extends FormClass {
   }
 }
 
-const ClientAddForm = Form.create()(AddClientForm);
+const ClientEditForm = Form.create()(UnwrappedClientEditForm);
 
-export default ClientAddForm;
+export default ClientEditForm;

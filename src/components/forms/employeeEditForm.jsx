@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import http from "../../services/httpService";
 import { Form, Button, Col, Row, Select, message, Input, Icon } from "antd";
 import FormClass from "../common/form";
 
 import { apiClientRoute, apiEmployeeRoute } from "../../config/default.json";
-import http from "../../services/httpService";
 
 const { Option } = Select;
 
@@ -23,38 +23,41 @@ class UnWrappedEmployeeEditForm extends FormClass {
   }
 
   async doSubmit() {
-    // const {
-    //   companyName,
-    //   firstName,
-    //   lastName,
-    //   phone,
-    //   email,
-    //   dayRate,
-    //   description,
-    //   clients
-    // } = this.props.form.getFieldsValue();
-    // const newEmployee = {
-    //   companyName,
-    //   firstName,
-    //   lastName,
-    //   phone,
-    //   email,
-    //   dayRate,
-    //   description,
-    //   clients
-    // };
-    // try {
-    //   // TODO: Make a way to display a notifcation before the reload.
-    //   await http.post(apiEmployeeRoute, newEmployee);
-    //   window.location = "/app/employees";
-    //   message.success(
-    //     "Employee Added! An email has been sent to them with login instructions."
-    //   );
-    // } catch (ex) {
-    //   if (ex.response && ex.response.status === 400) {
-    //     message.error(ex.response.data);
-    //   }
-    // }
+    const {
+      companyName,
+      firstName,
+      lastName,
+      phone,
+      email,
+      dayRate,
+      description,
+      clients
+    } = this.props.form.getFieldsValue();
+
+    const updateEmployee = {
+      empId: this.props.initials._id,
+      companyName,
+      firstName,
+      lastName,
+      phone,
+      email,
+      dayRate,
+      description,
+      clients
+    };
+
+    console.log(updateEmployee);
+
+    try {
+      // TODO: Make a way to display a notifcation before the reload.
+      await http.put(apiEmployeeRoute, updateEmployee);
+      window.location = "/app/employees";
+      message.success("Employee Updated! ");
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        message.error(ex.response.data);
+      }
+    }
     console.log(this.props.form.getFieldsValue());
   }
 

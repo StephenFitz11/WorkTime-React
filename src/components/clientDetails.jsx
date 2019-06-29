@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import http from "../services/httpService.js";
 import { Link } from "react-router-dom";
-import { Card, Col, Row, Button, Icon, PageHeader } from "antd";
+import { Card, Col, Row, Button, Icon, PageHeader, Drawer } from "antd";
 import DescriptionItem from "./common/descriptionItem";
 import { apiClientRoute } from "../config/default.json";
+import ClientEditForm from "./forms/clientEditForm.jsx";
 
 class ClientDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: {} };
+    this.state = { data: {}, visible: false };
   }
 
   async componentDidMount() {
@@ -19,6 +20,12 @@ class ClientDetails extends Component {
       console.log(this.state);
     });
   }
+
+  toggleDrawer = () => {
+    this.state.visible
+      ? this.setState({ visible: false })
+      : this.setState({ visible: true });
+  };
 
   render() {
     const { data } = this.state;
@@ -76,6 +83,14 @@ class ClientDetails extends Component {
             </Card>
           </Col>
         </Row>
+        <Drawer
+          title="Edit Client Details."
+          width={720}
+          onClose={this.toggleDrawer}
+          visible={this.state.visible}
+        >
+          <ClientEditForm initials={data} />
+        </Drawer>
       </div>
     );
   }

@@ -96,18 +96,6 @@ class EmployeeDetails extends Component {
           visible={this.state.visible}
         >
           <EmployeeEditForm initials={this.state.data} />
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              bottom: 0,
-              width: "100%",
-              borderTop: "1px solid #e9e9e9",
-              padding: "10px 16px",
-              background: "#fff",
-              textAlign: "right"
-            }}
-          />
         </Drawer>
       </div>
     );
