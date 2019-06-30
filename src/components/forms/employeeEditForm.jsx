@@ -13,8 +13,10 @@ class UnWrappedEmployeeEditForm extends FormClass {
   async componentDidMount() {
     // this.employeeMaker(5);
     const { data } = await http.get(apiClientRoute);
+
+    // TODO: Filter out the clients that are already in Props.
     const names = data.map(item => (
-      <Option key={item._id}>{item.clientCompanyName}</Option>
+      <Option key={item._id + 1}>{item.clientCompanyName}</Option>
     ));
 
     this.setState({ children: names }, () => {
@@ -108,7 +110,6 @@ class UnWrappedEmployeeEditForm extends FormClass {
                 placeholder: "Employee Email",
                 label: "Email",
                 required: true,
-
                 initialValue: initials.email
               })}
             </Col>

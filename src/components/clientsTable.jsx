@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Table, Popconfirm, message, Divider } from "antd";
+import { Table, Popconfirm, message, Divider, Drawer } from "antd";
 
 import http from "../services/httpService";
 
 import { apiClientRoute } from "../config/default.json";
+import ClientEditForm from "./forms/clientEditForm";
 
 class ClientsTable extends Component {
-  state = {};
+  state = { visible: false };
 
   async componentDidMount() {
     const { data } = await http.get(apiClientRoute);
@@ -17,6 +18,7 @@ class ClientsTable extends Component {
 
     this.setState({ data });
   }
+
 
   async handleDelete(client) {
     const originalData = this.state.data;
@@ -32,6 +34,21 @@ class ClientsTable extends Component {
       this.setState({ data: originalData });
     }
   }
+
+  
+  enableEditForm = record => {
+    this.state.visible
+      ? this.setState({ visible: false })
+      : this.setState({ visible: true });
+
+    this.setState({ record });
+  };
+
+  onClose = () => {
+    this.setState({
+      visible: false
+    });
+  };
 
   render() {
     const data = this.state.data;
@@ -70,10 +87,13 @@ class ClientsTable extends Component {
         key: "action",
         render: (text, record) => (
           <span>
+            <a onClick={() => this.enableEditForm(record)} href="javascript:;">
+              Edit
+            </a>
+            <Divider type="vertical" />
             <Popconfirm
               title="Are you sure you want to delete this client?"
               onConfirm={() => this.handleDelete(record)}
-              onCancel={this.cancel}
               okText="Yes"
               cancelText="No"
             >
@@ -87,6 +107,14 @@ class ClientsTable extends Component {
     return (
       <React.Fragment>
         <Table columns={columns} dataSource={data} onChange={this.onChange} />
+        <Drawer
+          title="Edit Client Details."
+          width={720}
+          onClose={this.onClose}
+          visible={this.state.visible}
+        >
+          <ClientEditForm initials={this.state.record} />
+        </Drawer>
       </React.Fragment>
     );
   }

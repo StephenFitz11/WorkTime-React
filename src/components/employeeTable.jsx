@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Table, Popconfirm, message } from "antd";
-
+import { Table, Popconfirm, message, Drawer, Divider } from "antd";
+import EmployeeEditForm from "./forms/employeeEditForm";
 import http from "../services/httpService";
-
 import { apiEmployeeRoute } from "../config/default.json";
 
 class EmployeeTable extends Component {
-  state = {};
+  state = { visible: false };
 
   async componentDidMount() {
     const { data } = await http.get(apiEmployeeRoute);
@@ -17,10 +16,6 @@ class EmployeeTable extends Component {
     });
 
     this.setState({ data });
-  }
-
-  onChange(pagination, filters, sorter) {
-    console.log("params", pagination, filters, sorter);
   }
 
   // TODO: Implement DELETE Client
@@ -39,6 +34,20 @@ class EmployeeTable extends Component {
       this.setState({ data: originalData });
     }
   }
+
+  enableEditForm = record => {
+    this.state.visible
+      ? this.setState({ visible: false })
+      : this.setState({ visible: true });
+
+    this.setState({ record });
+  };
+
+  onClose = () => {
+    this.setState({
+      visible: false
+    });
+  };
 
   render() {
     const data = this.state.data;
@@ -70,6 +79,10 @@ class EmployeeTable extends Component {
         key: "action",
         render: (text, record) => (
           <span>
+            <a onClick={() => this.enableEditForm(record)} href="javascript:;">
+              Edit
+            </a>
+            <Divider type="vertical" />
             <Popconfirm
               title="Are you sure delete this client?"
               onConfirm={() => this.handleDelete(record)}
@@ -87,6 +100,14 @@ class EmployeeTable extends Component {
     return (
       <React.Fragment>
         <Table columns={columns} dataSource={data} onChange={this.onChange} />
+        <Drawer
+          title="Edit Employee Details."
+          width={720}
+          onClose={this.onClose}
+          visible={this.state.visible}
+        >
+          <EmployeeEditForm initials={this.state.record} />
+        </Drawer>
       </React.Fragment>
     );
   }
