@@ -1,11 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Table, Popconfirm, Divider } from "antd";
+import { Table, Popconfirm, Divider, DatePicker } from "antd";
+import moment from "moment";
 import http from "../services/httpService";
 import { apiTimeRoute } from "../config/default.json";
 
+const { RangePicker } = DatePicker;
+
 class TimeTable extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = { data: [] };
+  }
 
   async componentDidMount() {
     var tableData = {};
@@ -18,10 +24,10 @@ class TimeTable extends Component {
     }
     data.map(item => {
       item.timeMins = item.timeMins / 60;
-      const date = new Date(item["date"]);
+      const dateFormatted = new Date(item["date"]);
       item[
-        "date"
-      ] = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+        "dateFormatted"
+      ] = `${dateFormatted.getMonth()}/${dateFormatted.getDate()}/${dateFormatted.getFullYear()}`;
       item["key"] = item._id;
     });
     this.setState({ data: data }, () => {
@@ -62,8 +68,8 @@ class TimeTable extends Component {
           // specify the condition of filtering result
           // here is that finding the name started with `value`
           onFilter: (value, record) => record.name.indexOf(value) === 0,
-          render: (text, record) => `${record.date}`,
-          sorter: (a, b) => a.date.length - b.date.length,
+          render: (text, record) => `${record.dateFormatted}`,
+          sorter: (a, b) => a.dateFormatted.length - b.dateFormatted.length,
           sortDirections: ["descend", "ascend"]
         },
 
@@ -124,18 +130,34 @@ class TimeTable extends Component {
     });
   }
 
-  filterDataByDate() {}
+  // TODO: Filter by date
+  filterDatabyDate = (dates, dateStrings) => {
+    const data = this.state.data;
+    console.log("dates");
+    console.log(dates);
+    console.log("data");
+    console.log(data);
+
+    console.log(dates);
+    console.log(dateStrings);
+  };
+
+  handleDelete = record => {};
 
   render() {
     const data = this.state.data;
 
     return (
       <React.Fragment>
-        <Table
-          columns={this.state.columns}
-          dataSource={data}
-          onChange={this.onChange}
+        <RangePicker
+          format="MM-DD-YYYY"
+          ranges={{
+            Today: [moment(), moment()],
+            "This Month": [moment().startOf("month"), moment().endOf("month")]
+          }}
+          onChange={this.filterDatabyDate}
         />
+        <Table columns={this.state.columns} dataSource={this.state.data} />
       </React.Fragment>
     );
   }

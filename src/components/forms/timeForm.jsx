@@ -55,8 +55,11 @@ class UnWrappedTimeForm extends FormClass {
       description
     };
 
-    await http.post(apiTimeRoute, newTime);
-    window.location = "/app/time";
+    // console.log(this.props.form.getFieldsValue());
+    console.log(newTime);
+
+    // await http.post(apiTimeRoute, newTime);
+    // window.location = "/app/time";
   }
 
   render() {
@@ -80,7 +83,7 @@ class UnWrappedTimeForm extends FormClass {
             </Col>
             <Col span={6}>
               {this.renderSelect(
-                _.range(4).map(m => <Option key={m}>{m * 15}</Option>),
+                _.range(4).map(m => <Option key={m * 15}>{m * 15}</Option>),
                 "Mins",
                 true,
                 "Minutes"
