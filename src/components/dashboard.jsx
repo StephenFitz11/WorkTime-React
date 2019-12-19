@@ -5,10 +5,6 @@ import { Statistic, Row, Col, Button, Card, Icon } from "antd";
 class DashBoard extends Component {
   state = {};
 
-  async componentDidMount() {
-    const { data } = await http.get("http://localhost:2000/");
-    console.log(data);
-  }
   render() {
     return (
       <React.Fragment>

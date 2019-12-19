@@ -28,7 +28,7 @@ class EmployeeTable extends Component {
     try {
       await http.delete(`${apiEmployeeRoute}/${client._id}`);
 
-      message.success("Client was deleted");
+      message.success("Employee was deleted");
     } catch (ex) {
       message.error("An error occured. Employee was not deleted.");
       this.setState({ data: originalData });
@@ -59,9 +59,9 @@ class EmployeeTable extends Component {
         // here is that finding the name started with `value`
         onFilter: (value, record) => record.name.indexOf(value) === 0,
         render: (text, record) => (
-          <Link to={`/app/employees/${record._id}`}>{`${record.firstName} ${
-            record.lastName
-          }`}</Link>
+          <Link
+            to={`/app/employees/${record._id}`}
+          >{`${record.firstName} ${record.lastName}`}</Link>
         ),
         sorter: (a, b) =>
           a.clientCompanyName.length - b.clientCompanyName.length,
@@ -84,7 +84,7 @@ class EmployeeTable extends Component {
             </a>
             <Divider type="vertical" />
             <Popconfirm
-              title="Are you sure delete this client?"
+              title="Are you sure delete this employee?"
               onConfirm={() => this.handleDelete(record)}
               onCancel={this.cancel}
               okText="Yes"
