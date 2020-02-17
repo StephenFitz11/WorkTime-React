@@ -19,7 +19,6 @@ class ClientsTable extends Component {
     this.setState({ data });
   }
 
-
   async handleDelete(client) {
     const originalData = this.state.data;
 
@@ -35,7 +34,6 @@ class ClientsTable extends Component {
     }
   }
 
-  
   enableEditForm = record => {
     this.state.visible
       ? this.setState({ visible: false })
